@@ -10,40 +10,11 @@ import { Edit, Delete, Add, ArrowUpward, ArrowDownward } from '@mui/icons-materi
 import axios from 'axios';
 import AddUserDialog from './dialogs/AddUserDialog';
 import EditUserDialog from './dialogs/EditUserDialog';
-import { makeStyles } from '@mui/styles';
 import { CSVLink } from 'react-csv';
 import Papa from 'papaparse';
-
-const useStyles = makeStyles({
-  container: {
-    marginTop: 32,
-  },
-  header: {
-    marginBottom: 16,
-    fontFamily: 'Arial, sans-serif',
-    color: '#333',
-  },
-  button: {
-    marginBottom: 16,
-    marginRight: 16,
-  },
-  table: {
-    marginTop: 16,
-  },
-  formControl: {
-    minWidth: 250, // Increased width of the dropdown
-    marginLeft: 16,
-  },
-  searchBox: {
-    display: 'flex',
-    alignItems: 'center',
-    marginBottom: 16,
-    gap: 16, // Add spacing between elements
-  },
-});
+import './css/UserManagement.css';
 
 const UserManagement = () => {
-  const classes = useStyles();
   const [users, setUsers] = useState([]);
   const [roles, setRoles] = useState([]);
   const [openAddDialog, setOpenAddDialog] = useState(false);
@@ -159,45 +130,49 @@ const UserManagement = () => {
   };
 
   return (
-    <Container className={classes.container}>
-      <Typography variant="h4" className={classes.header}>User Management</Typography>
-      <Box display="flex" justifyContent="space-between" alignItems="center" marginBottom={2}>
+    <Container className="container">
+      <Typography variant="h4" className="header">User Management</Typography>
+      <Box className="buttonContainer">
         <Button
           variant="contained"
           color="primary"
           onClick={() => setOpenAddDialog(true)}
           startIcon={<Add />}
-          className={classes.button}
+          className="button"
         >
           Add User
         </Button>
-        <input
-          accept=".csv"
-          style={{ display: 'none' }}
-          id="import-button"
-          type="file"
-          onChange={handleImport}
-        />
-        <label htmlFor="import-button">
-          <Button variant="contained" color="secondary" component="span" className={classes.button}>
-            Import Users (CSV)
-          </Button>
-        </label>
+        <Box display="flex" justifyContent="center" flexGrow={1}>
+          <input
+            accept=".csv"
+            style={{ display: 'none' }}
+            id="import-button"
+            type="file"
+            onChange={handleImport}
+          />
+          <label htmlFor="import-button">
+            <Button variant="contained" color="secondary" component="span" className="button">
+              Import Users (CSV)
+            </Button>
+          </label>
+        </Box>
         <CSVLink data={users} filename="users.csv">
-          <Button variant="contained" color="secondary" className={classes.button}>
+          <Button variant="contained" color="secondary" className="button">
             Export Users (CSV)
           </Button>
         </CSVLink>
       </Box>
-      <Box className={classes.searchBox}>
+      <Box className="searchBox">
         <TextField
           label="Search Users"
           variant="outlined"
           fullWidth
+          margin="normal"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
+          className="searchField"
         />
-        <FormControl variant="outlined" className={classes.formControl}>
+        <FormControl variant="outlined" className="formControl">
           <InputLabel>Sort By</InputLabel>
           <Select
             value={sortConfig.key}
@@ -209,11 +184,11 @@ const UserManagement = () => {
             <MenuItem value="status">Status</MenuItem>
           </Select>
         </FormControl>
-        <IconButton onClick={toggleSortDirection}>
+        <IconButton onClick={toggleSortDirection} className="sortButton">
           {sortConfig.direction === 'ascending' ? <ArrowUpward /> : <ArrowDownward />}
         </IconButton>
       </Box>
-      <Table className={classes.table}>
+      <Table className="table">
         <TableHead>
           <TableRow>
             <TableCell onClick={() => requestSort('name')}>Name</TableCell>

@@ -11,35 +11,9 @@ import { Edit, Delete, Add } from '@mui/icons-material';
 import axios from 'axios';
 import AddRoleDialog from './dialogs/AddRoleDialog';
 import EditRoleDialog from './dialogs/EditRoleDialog';
-import { makeStyles } from '@mui/styles';
-
-const useStyles = makeStyles({
-  container: {
-    marginTop: 32, 
-  },
-  header: {
-    marginBottom: 16, 
-    fontFamily: 'Arial, sans-serif',
-    color: '#333',
-  },
-  button: {
-    marginBottom: 16, 
-  },
-  gridContainer: {
-    paddingTop: 16, 
-  },
-  paper: {
-    padding: 16, 
-    boxShadow: '0px 3px 6px rgba(0,0,0,0.1)',
-    transition: '0.3s',
-    '&:hover': {
-      boxShadow: '0px 6px 12px rgba(0,0,0,0.2)',
-    },
-  },
-});
+import './css/RoleManagement.css';
 
 const RoleManagement = () => {
-  const classes = useStyles();
   const [roles, setRoles] = useState([]);
   const [permissions, setPermissions] = useState([]);
   const [openAddDialog, setOpenAddDialog] = useState(false);
@@ -89,24 +63,23 @@ const RoleManagement = () => {
     setSnackbarOpen(false);
   };
 
-
   return (
-    <Container className={classes.container}>
-      <Typography variant="h4" className={classes.header}>Role Management</Typography>
+    <Container className="container">
+      <Typography variant="h4" className="header">Role Management</Typography>
       <Button
         variant="contained"
         color="primary"
         onClick={() => setOpenAddDialog(true)}
         startIcon={<Add />}
-        className={classes.button}
+        className="button"
       >
         Add Role
       </Button>
-      <div className={classes.gridContainer}>
+      <div className="gridContainer">
         <Grid container spacing={3}>
           {roles.map((role) => (
             <Grid item xs={12} sm={6} md={4} key={role.id}>
-              <Paper className={classes.paper}>
+              <Paper className="paper">
                 <Typography variant="h6">
                   {role.name}
                   <IconButton onClick={() => setEditRole(role)}>

@@ -1,0 +1,83 @@
+/* UserManagement.css */
+
+.container {
+  margin-top: 32px;
+}
+
+.header {
+  margin-bottom: 16px;
+  font-family: Arial, sans-serif;
+  color: #333;
+}
+
+.button {
+  margin-bottom: 16px;
+  margin-right: 16px;
+}
+
+.table {
+  margin-top: 16px;
+}
+
+.formControl {
+  min-width: 200px;
+  margin-left: 16px;
+}
+
+.searchBox {
+  display: flex;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.searchField {
+  margin-right: 16px;
+}
+
+.sortButton {
+  margin-left: 16px;
+}
+
+.buttonContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  width: 100%;
+}
+
+/* Responsive styles */
+@media (max-width: 600px) {
+  .button {
+    width: 100%;
+    margin-right: 0;
+  }
+
+  .formControl {
+    width: 100%;
+    margin-left: 0;
+    margin-bottom: 16px;
+  }
+
+  .searchBox {
+    flex-direction: column;
+  }
+
+  .buttonContainer {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .buttonContainer .button {
+    width: 100%;
+    margin-right: 0;
+    margin-bottom: 8px;
+  }
+
+  .buttonContainer .importButton {
+    width: 100%;
+    margin-right: 0;
+    margin-bottom: 8px;
+  }
+}

@@ -1,0 +1,41 @@
+/* RoleManagement.css */
+
+.container {
+    margin-top: 32px;
+  }
+  
+  .header {
+    margin-bottom: 16px;
+    font-family: Arial, sans-serif;
+    color: #333;
+  }
+  
+  .button {
+    margin-bottom: 16px;
+  }
+  
+  .gridContainer {
+    padding-top: 16px;
+  }
+  
+  .paper {
+    padding: 16px;
+    box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1);
+    transition: 0.3s;
+  }
+  
+  .paper:hover {
+    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Responsive styles */
+  @media (max-width: 600px) {
+    .button {
+      width: 100%;
+      margin-right: 0;
+    }
+  
+    .gridContainer {
+      flex-direction: column;
+    }
+  }
