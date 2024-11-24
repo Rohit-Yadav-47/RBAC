@@ -4,13 +4,33 @@ import React, { useState, useEffect } from 'react';
 import {
   Table, TableBody, TableCell, TableHead,
   TableRow, Button, IconButton, Tooltip, TextField,
+  Container, Typography
 } from '@mui/material';
-import { Edit, Delete } from '@mui/icons-material';
+import { Edit, Delete, Add } from '@mui/icons-material';
 import axios from 'axios';
 import AddUserDialog from './dialogs/AddUserDialog';
 import EditUserDialog from './dialogs/EditUserDialog';
+import { makeStyles } from '@mui/styles';
+
+const useStyles = makeStyles({
+  container: {
+    marginTop: 32, // Use a fixed value instead of theme.spacing
+  },
+  header: {
+    marginBottom: 16, // Use a fixed value instead of theme.spacing
+    fontFamily: 'Arial, sans-serif',
+    color: '#333',
+  },
+  button: {
+    marginBottom: 16, // Use a fixed value instead of theme.spacing
+  },
+  table: {
+    marginTop: 16, // Use a fixed value instead of theme.spacing
+  },
+});
 
 const UserManagement = () => {
+  const classes = useStyles();
   const [users, setUsers] = useState([]);
   const [roles, setRoles] = useState([]);
   const [openAddDialog, setOpenAddDialog] = useState(false);
@@ -75,9 +95,15 @@ const UserManagement = () => {
   };
 
   return (
-    <>
-      <h2>User Management</h2>
-      <Button variant="contained" color="primary" onClick={() => setOpenAddDialog(true)}>
+    <Container className={classes.container}>
+      <Typography variant="h4" className={classes.header}>User Management</Typography>
+      <Button
+        variant="contained"
+        color="primary"
+        onClick={() => setOpenAddDialog(true)}
+        startIcon={<Add />}
+        className={classes.button}
+      >
         Add User
       </Button>
       <TextField
@@ -88,12 +114,12 @@ const UserManagement = () => {
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
       />
-      <Table style={{ marginTop: '1rem' }}>
+      <Table className={classes.table}>
         <TableHead>
           <TableRow>
-            <TableCell>Name</TableCell>
-            <TableCell>Role</TableCell>
-            <TableCell>Status</TableCell>
+            <TableCell onClick={() => requestSort('name')}>Name</TableCell>
+            <TableCell onClick={() => requestSort('role')}>Role</TableCell>
+            <TableCell onClick={() => requestSort('status')}>Status</TableCell>
             <TableCell align="right">Actions</TableCell>
           </TableRow>
         </TableHead>
@@ -143,7 +169,7 @@ const UserManagement = () => {
           roles={roles}
         />
       )}
-    </>
+    </Container>
   );
 };
 
