@@ -35,9 +35,7 @@ The project follows a modular structure for scalability and readability:
 ```
 src/
 ├── components/          # Reusable components
-├── pages/               # Main pages for the app
-├── utils/               # Utility functions
-├── mock/                # Mock API implementation
+├── api/                # Mock API implementation
 ├── data.js              # Initial data for users, roles, and permissions
 └── App.js               # Application root
 ```
