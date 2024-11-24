@@ -15,21 +15,21 @@ import { makeStyles } from '@mui/styles';
 
 const useStyles = makeStyles({
   container: {
-    marginTop: 32, // Use a fixed value instead of theme.spacing
+    marginTop: 32, 
   },
   header: {
-    marginBottom: 16, // Use a fixed value instead of theme.spacing
+    marginBottom: 16, 
     fontFamily: 'Arial, sans-serif',
     color: '#333',
   },
   button: {
-    marginBottom: 16, // Use a fixed value instead of theme.spacing
+    marginBottom: 16, 
   },
   gridContainer: {
-    paddingTop: 16, // Add top padding to the Grid container
+    paddingTop: 16, 
   },
   paper: {
-    padding: 16, // Use a fixed value instead of theme.spacing
+    padding: 16, 
     boxShadow: '0px 3px 6px rgba(0,0,0,0.1)',
     transition: '0.3s',
     '&:hover': {
