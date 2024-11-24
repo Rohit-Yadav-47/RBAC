@@ -4,28 +4,41 @@ import React, { useState, useEffect } from 'react';
 import {
   Table, TableBody, TableCell, TableHead,
   TableRow, Button, IconButton, Tooltip, TextField,
-  Container, Typography
+  Container, Typography, Snackbar, Box, FormControl, InputLabel, Select, MenuItem
 } from '@mui/material';
-import { Edit, Delete, Add } from '@mui/icons-material';
+import { Edit, Delete, Add, ArrowUpward, ArrowDownward } from '@mui/icons-material';
 import axios from 'axios';
 import AddUserDialog from './dialogs/AddUserDialog';
 import EditUserDialog from './dialogs/EditUserDialog';
 import { makeStyles } from '@mui/styles';
+import { CSVLink } from 'react-csv';
+import Papa from 'papaparse';
 
 const useStyles = makeStyles({
   container: {
-    marginTop: 32, // Use a fixed value instead of theme.spacing
+    marginTop: 32,
   },
   header: {
-    marginBottom: 16, // Use a fixed value instead of theme.spacing
+    marginBottom: 16,
     fontFamily: 'Arial, sans-serif',
     color: '#333',
   },
   button: {
-    marginBottom: 16, // Use a fixed value instead of theme.spacing
+    marginBottom: 16,
+    marginRight: 16,
   },
   table: {
-    marginTop: 16, // Use a fixed value instead of theme.spacing
+    marginTop: 16,
+  },
+  formControl: {
+    minWidth: 250, // Increased width of the dropdown
+    marginLeft: 16,
+  },
+  searchBox: {
+    display: 'flex',
+    alignItems: 'center',
+    marginBottom: 16,
+    gap: 16, // Add spacing between elements
   },
 });
 
@@ -37,6 +50,8 @@ const UserManagement = () => {
   const [editUser, setEditUser] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [sortConfig, setSortConfig] = useState({ key: 'name', direction: 'ascending' });
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState('');
 
   useEffect(() => {
     fetchUsers();
@@ -65,8 +80,12 @@ const UserManagement = () => {
     try {
       await axios.delete(`/api/users/${id}`);
       fetchUsers();
+      setSnackbarMessage('User deleted successfully');
+      setSnackbarOpen(true);
     } catch (error) {
       console.error('Error deleting user:', error);
+      setSnackbarMessage('Error deleting user');
+      setSnackbarOpen(true);
     }
   };
 
@@ -74,17 +93,27 @@ const UserManagement = () => {
     let sortableUsers = [...users];
     if (sortConfig !== null) {
       sortableUsers.sort((a, b) => {
-        if (a[sortConfig.key] < b[sortConfig.key]) {
+        let aValue = a[sortConfig.key];
+        let bValue = b[sortConfig.key];
+
+        if (sortConfig.key === 'role') {
+          const aRole = roles.find((role) => role.id === a.roleId);
+          const bRole = roles.find((role) => role.id === b.roleId);
+          aValue = aRole ? aRole.name : '';
+          bValue = bRole ? bRole.name : '';
+        }
+
+        if (aValue < bValue) {
           return sortConfig.direction === 'ascending' ? -1 : 1;
         }
-        if (a[sortConfig.key] > b[sortConfig.key]) {
+        if (aValue > bValue) {
           return sortConfig.direction === 'ascending' ? 1 : -1;
         }
         return 0;
       });
     }
     return sortableUsers;
-  }, [users, sortConfig]);
+  }, [users, sortConfig, roles]);
 
   const requestSort = (key) => {
     let direction = 'ascending';
@@ -94,26 +123,96 @@ const UserManagement = () => {
     setSortConfig({ key, direction });
   };
 
+  const toggleSortDirection = () => {
+    setSortConfig((prevSortConfig) => ({
+      ...prevSortConfig,
+      direction: prevSortConfig.direction === 'ascending' ? 'descending' : 'ascending',
+    }));
+  };
+
+  const handleImport = (event) => {
+    const file = event.target.files[0];
+    const reader = new FileReader();
+    reader.onload = async (e) => {
+      const text = e.target.result;
+      const importedUsers = Papa.parse(text, { header: true }).data;
+      const formattedUsers = importedUsers.map((user, index) => ({
+        ...user,
+        id: users.length + index + 1,
+        roleId: parseInt(user.roleId, 10),
+        status: user.status ? user.status.charAt(0).toUpperCase() + user.status.slice(1).toLowerCase() : 'Active',
+      }));
+      try {
+        for (const user of formattedUsers) {
+          await axios.post('/api/users', user);
+        }
+        fetchUsers();
+        setSnackbarMessage('Users imported successfully');
+        setSnackbarOpen(true);
+      } catch (error) {
+        console.error('Error importing users:', error);
+        setSnackbarMessage('Error importing users');
+        setSnackbarOpen(true);
+      }
+    };
+    reader.readAsText(file);
+  };
+
   return (
     <Container className={classes.container}>
       <Typography variant="h4" className={classes.header}>User Management</Typography>
-      <Button
-        variant="contained"
-        color="primary"
-        onClick={() => setOpenAddDialog(true)}
-        startIcon={<Add />}
-        className={classes.button}
-      >
-        Add User
-      </Button>
-      <TextField
-        label="Search Users"
-        variant="outlined"
-        fullWidth
-        margin="normal"
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
-      />
+      <Box display="flex" justifyContent="space-between" alignItems="center" marginBottom={2}>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={() => setOpenAddDialog(true)}
+          startIcon={<Add />}
+          className={classes.button}
+        >
+          Add User
+        </Button>
+        <input
+          accept=".csv"
+          style={{ display: 'none' }}
+          id="import-button"
+          type="file"
+          onChange={handleImport}
+        />
+        <label htmlFor="import-button">
+          <Button variant="contained" color="secondary" component="span" className={classes.button}>
+            Import Users (CSV)
+          </Button>
+        </label>
+        <CSVLink data={users} filename="users.csv">
+          <Button variant="contained" color="secondary" className={classes.button}>
+            Export Users (CSV)
+          </Button>
+        </CSVLink>
+      </Box>
+      <Box className={classes.searchBox}>
+        <TextField
+          label="Search Users"
+          variant="outlined"
+          fullWidth
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
+        <FormControl variant="outlined" className={classes.formControl}>
+          <InputLabel>Sort By</InputLabel>
+          <Select
+            value={sortConfig.key}
+            onChange={(e) => requestSort(e.target.value)}
+            label="Sort By"
+          >
+            <MenuItem value="name">Name</MenuItem>
+            <MenuItem value="role">Role</MenuItem>
+            <MenuItem value="status">Status</MenuItem>
+          </Select>
+        </FormControl>
+        <IconButton onClick={toggleSortDirection}>
+          {sortConfig.direction === 'ascending' ? <ArrowUpward /> : <ArrowDownward />}
+        </IconButton>
+      </Box>
       <Table className={classes.table}>
         <TableHead>
           <TableRow>
@@ -125,7 +224,7 @@ const UserManagement = () => {
         </TableHead>
         <TableBody>
           {sortedUsers
-            .filter((user) => user.name.toLowerCase().includes(searchTerm.toLowerCase()))
+            .filter((user) => user.name && user.name.toLowerCase().includes(searchTerm.toLowerCase()))
             .map((user) => {
               const userRole = roles.find((role) => role.id === user.roleId);
               return (
@@ -169,6 +268,13 @@ const UserManagement = () => {
           roles={roles}
         />
       )}
+
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={6000}
+        onClose={() => setSnackbarOpen(false)}
+        message={snackbarMessage}
+      />
     </Container>
   );
 };
