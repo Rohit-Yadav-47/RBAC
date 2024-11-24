@@ -1,70 +1,114 @@
-# Getting Started with Create React App
+# RBAC Admin Dashboard ReadMe
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Live: https://rbac-theta.vercel.app/
 
-## Available Scripts
+## Overview
 
-In the project directory, you can run:
+The RBAC (Role-Based Access Control) Admin Dashboard is a React-based application that allows administrators to manage users, roles, and permissions in an intuitive interface. This application features user and role management tools, including adding, editing, deleting, and assigning permissions.
 
-### `npm start`
+## Features
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### 1. User Management
+- **Add Users**: Add new users with names, roles, and status.
+- **Edit Users**: Update user details such as name, role, and status.
+- **Delete Users**: Remove users from the system.
+- **Import/Export Users**: 
+  - Import users from CSV files.
+  - Export user data to CSV files for external use.
+- **Search and Sort**: Search users by name and sort by name, role, or status.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### 2. Role Management
+- **Add Roles**: Create new roles with a custom set of permissions.
+- **Edit Roles**: Modify role names and permissions.
+- **Delete Roles**: Remove roles from the system.
+- **Assign Permissions**: Assign or revoke permissions for specific roles.
 
-### `npm test`
+### 3. Permissions Management
+- **Predefined Permissions**: The app provides a predefined list of permissions (`Read`, `Write`, `Delete`, `Update`).
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### 4. Responsive Design
+- Fully responsive with optimized layouts for desktop and mobile.
 
-### `npm run build`
+### 5. Mock API
+- Uses `axios-mock-adapter` to simulate API requests for a seamless development experience.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## File Structure
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### Components
+- **Dialogs**
+  - `AddRoleDialog.js`: Dialog for adding new roles.
+  - `AddUserDialog.js`: Dialog for adding new users.
+  - `EditRoleDialog.js`: Dialog for editing existing roles.
+  - `EditUserDialog.js`: Dialog for editing existing users.
+- **Management Pages**
+  - `UserManagement.js`: Page to manage users with search, sort, import/export functionality.
+  - `RoleManagement.js`: Page to manage roles and assign permissions.
+- **Header**
+  - `Header.js`: Application header with navigation links for users and roles.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Data
+- `data.js`: Contains initial mock data for users, roles, and permissions.
 
-### `npm run eject`
+### Mock API
+- `mockApi.js`: Simulates API endpoints for users, roles, and permissions using `axios-mock-adapter`.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+### App
+- `App.js`: Main application file that sets up routing and integrates all components.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## How to Run
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+### Prerequisites
+- Node.js (v14 or higher)
+- npm or yarn
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+### Steps
+1. Clone the repository:
+   ```bash
+   git clone <repository-url>
+   cd <repository-directory>
+   ```
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+3. Start the development server:
+   ```bash
+   npm start
+   ```
+4. Open your browser and navigate to `http://localhost:3000`.
 
-## Learn More
+## Mock API Endpoints
+### Users
+- **GET** `/api/users`: Fetch all users.
+- **POST** `/api/users`: Add a new user.
+- **PUT** `/api/users/:id`: Update a user by ID.
+- **DELETE** `/api/users/:id`: Delete a user by ID.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### Roles
+- **GET** `/api/roles`: Fetch all roles.
+- **POST** `/api/roles`: Add a new role.
+- **PUT** `/api/roles/:id`: Update a role by ID.
+- **DELETE** `/api/roles/:id`: Delete a role by ID.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### Permissions
+- **GET** `/api/permissions`: Fetch all permissions.
 
-### Code Splitting
+## Tech Stack
+- **Frontend**: React, Material-UI
+- **Routing**: React Router
+- **Mock API**: axios-mock-adapter
+- **File Handling**: PapaParse for CSV import/export
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+## Future Enhancements
+- **Authentication**: Add login/logout functionality with user authentication.
+- **Database Integration**: Replace mock API with a real backend.
+- **Enhanced Permissions**: Add granular permissions for finer control.
+- **Audit Logs**: Record changes to roles and users for auditing purposes.
 
-### Analyzing the Bundle Size
+## Contributions
+Contributions are welcome! Please fork the repository and submit a pull request for any improvements or bug fixes.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+## License
+This project is open-sourced under the MIT License. 
 
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+For further queries, feel free to open an issue in the repository.
