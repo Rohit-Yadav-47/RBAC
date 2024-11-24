@@ -1,70 +1,154 @@
-# Getting Started with Create React App
+# RBAC Admin Dashboard
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A powerful Role-Based Access Control (RBAC) Admin Dashboard built with **React** and **Material-UI**, enabling administrators to effectively manage users and roles, and assign permissions. The dashboard includes a mock API for seamless simulation of backend operations.
+
+---
+
+## Table of Contents
+
+- [Features](#features)
+- [Project Structure](#project-structure)
+- [Installation](#installation)
+- [Available Scripts](#available-scripts)
+- [API Endpoints](#api-endpoints)
+- [Components](#components)
+- [Data](#data)
+- [Learn More](#learn-more)
+
+---
+
+## Features
+
+- **User Management**: Add, edit, delete, and search users with an intuitive interface.
+- **Role Management**: Create, edit, delete, and assign permissions to roles effortlessly.
+- **Mock API**: Utilize a simulated backend using `axios-mock-adapter` for API interactions.
+- **Responsive Design**: Fully optimized for both desktop and mobile devices.
+
+---
+
+## Project Structure
+
+The project follows a modular structure for scalability and readability:
+
+```
+src/
+├── components/          # Reusable components
+├── pages/               # Main pages for the app
+├── utils/               # Utility functions
+├── mock/                # Mock API implementation
+├── data.js              # Initial data for users, roles, and permissions
+└── App.js               # Application root
+```
+
+---
+
+## Installation
+
+1. **Clone the repository**:
+
+   ```bash
+   git clone https://github.com/your-repo/rbac-admin-dashboard.git
+   cd rbac-admin-dashboard
+   ```
+
+2. **Install dependencies**:
+
+   ```bash
+   npm install
+   ```
+
+3. **Start the development server**:
+
+   ```bash
+   npm start
+   ```
+
+   Open [http://localhost:3000](http://localhost:3000) in your browser to view the dashboard.
+
+---
 
 ## Available Scripts
 
-In the project directory, you can run:
+Inside the project directory, you can use the following scripts:
 
 ### `npm start`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
-
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+Runs the app in development mode.  
+Visit [http://localhost:3000](http://localhost:3000) to preview.
 
 ### `npm test`
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Launches the test runner in watch mode.  
+Refer to [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more details.
 
 ### `npm run build`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Creates an optimized production build in the `build` folder.  
+Bundles React in production mode for improved performance.
 
 ### `npm run eject`
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+**Note**: This is a one-way operation. Once you eject, you cannot undo it.  
+Eject to gain full control over the build configuration.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+---
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+## API Endpoints
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+The mock API is implemented in `mockApi.js` using `axios-mock-adapter`. Below are the available endpoints:
 
-## Learn More
+### Users
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+- **`GET /api/users`**: Fetch all users.
+- **`POST /api/users`**: Add a new user.
+- **`PUT /api/users/:id`**: Update an existing user.
+- **`DELETE /api/users/:id`**: Delete a user.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### Roles
 
-### Code Splitting
+- **`GET /api/roles`**: Fetch all roles.
+- **`POST /api/roles`**: Add a new role.
+- **`PUT /api/roles/:id`**: Update an existing role.
+- **`DELETE /api/roles/:id`**: Delete a role.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+### Permissions
 
-### Analyzing the Bundle Size
+- **`GET /api/permissions`**: Fetch all permissions.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+---
 
-### Making a Progressive Web App
+## Components
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+### Header
 
-### Advanced Configuration
+The `Header` component serves as the navigation bar, providing links to:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+- **User Management**: Manage users.
+- **Role Management**: Manage roles and permissions.
 
-### Deployment
+### User Management
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+The `UserManagement` component offers a range of features:
 
-### `npm run build` fails to minify
+- Add, edit, delete, and search users.
+- Display user data in an organized table.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+### Role Management
+
+The `RoleManagement` component allows administrators to:
+
+- Add, edit, and delete roles.
+- Assign permissions to roles.
+
+### Dialogs
+
+- **AddUserDialog**: Dialog for adding a new user.
+- **EditUserDialog**: Dialog for editing an existing user.
+- **AddRoleDialog**: Dialog for adding a new role.
+- **EditRoleDialog**: Dialog for editing an existing role.
+
+---
+
+## Data
+
+Initial mock data for users, roles, and permissions is stored in `data.js`. The data is preloaded into the mock API to simulate realistic backend responses.
